@@ -12,6 +12,7 @@ import cors from 'cors'
 config()//process .env
 
 const app = express()
+app.set("trust proxy", 1);
 app.use(cors({
     origin:['https://blog-app-frontend-tan.vercel.app'],
     credentials:true
