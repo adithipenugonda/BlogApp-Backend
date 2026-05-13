@@ -28,7 +28,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.options("*", cors());
+
 
 //Add body parser middleware
 app.use(express.json())
