@@ -11,12 +11,24 @@ import cors from 'cors'
 
 config()//process .env
 
-const app = express()
+// const app = express()
+// app.set("trust proxy", 1);
+// app.use(cors({
+//     origin:['https://blog-app-frontend-tan.vercel.app'],
+//     credentials:true
+// }))
+const app = express();
+
 app.set("trust proxy", 1);
+
 app.use(cors({
-    origin:['https://blog-app-frontend-tan.vercel.app'],
-    credentials:true
-}))
+  origin: "https://blog-app-frontend-tan.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.options("*", cors());
 
 //Add body parser middleware
 app.use(express.json())
@@ -42,9 +54,15 @@ const connectDB = async ()=>{
 connectDB()
 
 //dealing with invalid paths
-app.use((req, res, next)=>{
-    res.json({ message: "Invalid path" });
-})
+// app.use((req, res, next)=>{
+//     res.json({ message: "Invalid path" });
+// })
+
+app.use("*", (req, res) => {
+    res.status(404).json({
+        message: "Invalid path"
+    });
+});
 
 //error handeling middleware
 app.use((err, req, res, next) => {
