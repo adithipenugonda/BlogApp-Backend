@@ -58,7 +58,7 @@ connectDB()
 //     res.json({ message: "Invalid path" });
 // })
 
-app.use("*", (req, res) => {
+app.use((req, res) => {
     res.status(404).json({
         message: "Invalid path"
     });
