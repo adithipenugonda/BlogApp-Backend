@@ -13,7 +13,7 @@ config()//process .env
 
 const app = express()
 app.use(cors({
-    origin:['http://localhost:5173'],
+    origin:['http://localhost:5173', 'https://blog-app-frontend-tan.vercel.app'],
     credentials:true
 }))
 
