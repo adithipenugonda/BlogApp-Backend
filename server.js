@@ -19,15 +19,38 @@ config()//process .env
 // }))
 const app = express();
 
+// app.set("trust proxy", 1);
+
+// app.use(cors({
+//   origin: "https://blog-app-frontend-tan.vercel.app",
+//   credentials: true,
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
+
+
 app.set("trust proxy", 1);
 
+const allowedOrigins = [
+  "https://blog-app-frontend-tan.vercel.app",
+  "https://blog-frontend-flame-two.vercel.app"
+];
+
 app.use(cors({
-  origin: "https://blog-app-frontend-tan.vercel.app",
+  origin: function (origin, callback) {
+    // allow requests with no origin (Postman, mobile apps, etc.)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
 
 
 //Add body parser middleware
